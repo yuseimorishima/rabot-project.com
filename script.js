@@ -30,7 +30,7 @@ document.addEventListener('visibilitychange', () => {
 const cinema = document.querySelector('#cinema-player');
 if (cinema) {
   const choices = [...document.querySelectorAll('.clip-choice')];
-  const titles = {1: '見上げるLOVOT', 2: '近くで撮ってみました。'};
+  const titles = {1: '見上げるLOVOT', 2: '近くで撮ってみました。', 3: '少し離れたところから。'};
   const message = document.querySelector('#playback-message');
   let selection = 0;
   choices.forEach(choice => choice.addEventListener('click', async () => {
@@ -41,7 +41,7 @@ if (cinema) {
     cinema.poster = `assets/videos/lovot-${clip}-poster.jpg`;
     cinema.setAttribute('aria-label', titles[clip]);
     document.querySelector('#clip-title').textContent = titles[clip];
-    document.querySelector('#clip-number').textContent = `0${clip} / 02`;
+    document.querySelector('#clip-number').textContent = `0${clip} / 03`;
     choices.forEach(item => item.setAttribute('aria-pressed', String(item === choice)));
     message.textContent = '';
     try { await cinema.play(); }
