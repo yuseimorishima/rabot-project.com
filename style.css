@@ -31,3 +31,7 @@ h1,h2,.card-heading h3,.film-row h3,.cinema-bar h2{font-family:var(--round);font
 @media(max-width:1000px){.header nav{gap:14px;font-size:10px}}
 @media(max-width:700px){.museum-heading{padding-top:38px}.museum-heading h1{font-size:37px}.museum-heading>p:last-child{font-size:11px}.orbit-room{min-height:440px;padding-block:50px}.orbit-ready .orbit-photo{width:155px;top:175px}.photo-print{padding:8px 8px 16px}.print-caption{font-size:10px;margin-top:12px}.photo-video-tag{font-size:9px}.orbit-floor{left:-20%;right:-20%;top:24%;height:70%}.orbit-photos{grid-template-columns:1fr 1fr;gap:15px}.museum-controls{gap:15px}.museum-note{font-size:9px;padding-inline:20px}.gallery-dialog-heading{padding:15px}.gallery-dialog-heading h2{font-size:14px}.header nav{gap:5px}}
 .orbit-photo[data-gallery-clip="3"] .photo-print img{object-fit:contain;background:#e9e0d3}
+
+.content-edited{white-space:pre-line}#gallery-still:not([hidden]){display:block;max-height:75svh;width:100%;object-fit:contain}#gallery-video[hidden]{display:none}.orbit-photo .photo-print img{object-fit:contain;background:#eee6da}
+
+.editor-entry{display:inline-block;margin-left:15px;text-decoration:underline;text-underline-offset:3px}

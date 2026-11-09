@@ -1,0 +1,594 @@
+{
+  "backend": {
+    "name": "github",
+    "repo": "yuseimorishima/rabot-project.com",
+    "branch": "main",
+    "base_url": "https://lovot.pages.dev",
+    "auth_endpoint": "api/auth",
+    "auth_scope": "repo"
+  },
+  "locale": "ja",
+  "media_folder": "assets/uploads",
+  "public_folder": "/assets/uploads",
+  "site_url": "https://lovot.pages.dev",
+  "display_url": "https://lovot.pages.dev",
+  "editor": {
+    "preview": false
+  },
+  "collections": [
+    {
+      "name": "site",
+      "label": "サイトを編集",
+      "files": [
+        {
+          "name": "index",
+          "label": "トップ",
+          "file": "content/index.json",
+          "fields": [
+            {
+              "name": "texts",
+              "label": "文章",
+              "widget": "object",
+              "fields": [
+                {
+                  "name": "text_1",
+                  "label": "実際のLOVOTを、動画で。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_2",
+                  "label": "LOVOTの いる毎日。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_3",
+                  "label": "見上げる目や、小さな動き。 撮影したLOVOTの様子を、そのまま",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_4",
+                  "label": "LOVOTを紹介する非公式サイト",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_5",
+                  "label": "LOVOTの動画",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_6",
+                  "label": "近くで見る、表情と動き。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_7",
+                  "label": "映像は音声なしで、 繰り返し再生されます。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_8",
+                  "label": "02 / 約7秒",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_9",
+                  "label": "近くで撮ってみました。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_10",
+                  "label": "目の動きや、顔の向き。 短い映像で、実際の様子をご覧ください。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_11",
+                  "label": "体験・製品情報",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_12",
+                  "label": "気になったら、会ってみる。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_13",
+                  "label": "体験の探し方や、お迎え前に確認したいことをまとめました。",
+                  "widget": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "about",
+          "label": "LOVOTについて",
+          "file": "content/about.json",
+          "fields": [
+            {
+              "name": "texts",
+              "label": "文章",
+              "widget": "object",
+              "fields": [
+                {
+                  "name": "text_1",
+                  "label": "LOVOTについて",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_2",
+                  "label": "一緒に暮らす ロボットです。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_3",
+                  "label": "表情も、動きも。 まずは、LOVOTの特徴から。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_4",
+                  "label": "LOVOTは、何をするロボット？",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_5",
+                  "label": "家族型ロボット、という考え方。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_6",
+                  "label": "公式サイトでは、LOVOTを「家族型ロボット」と紹介しています。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_7",
+                  "label": "知っておきたいのは、どんな動きをするのか、どんな接し方ができるの",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_8",
+                  "label": "目の動きや、表情を見る。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_9",
+                  "label": "公式サイトの検索抜粋には、名前を呼ぶと近づいてくるという説明があ",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_10",
+                  "label": "名前を呼ぶ。なでる。抱っこする。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_11",
+                  "label": "特別な操作を覚える前に、声をかけたり、そっとふれたり。 実際に体",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_12",
+                  "label": "動いている姿を、近くで見る。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_13",
+                  "label": "写真だけではわからない、移動の様子や体の動き。 家に迎えることを",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_14",
+                  "label": "機能を調べるときのポイント",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_15",
+                  "label": "「声が出る」と「会話できる」は別。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_16",
+                  "label": "公式の技術紹介の検索抜粋には、声帯をシミュレーションしたシンセサ",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_17",
+                  "label": "参考資料",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_18",
+                  "label": "ユーザー提供の検索結果にある、LOVOT公式サイトの紹介・技術情",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_19",
+                  "label": "家での過ごし方も、 見てみませんか。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_20",
+                  "label": "体験・製品情報",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_21",
+                  "label": "気になったら、会ってみる。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_22",
+                  "label": "体験の探し方や、お迎え前に確認したいことをまとめました。",
+                  "widget": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "life",
+          "label": "暮らしの中で",
+          "file": "content/life.json",
+          "fields": [
+            {
+              "name": "texts",
+              "label": "文章",
+              "widget": "object",
+              "fields": [
+                {
+                  "name": "text_1",
+                  "label": "暮らしの中で",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_2",
+                  "label": "いつもの部屋に、 LOVOTがいる。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_3",
+                  "label": "朝から夜まで。家で過ごす場面を、少し具体的に。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_4",
+                  "label": "実際の様子",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_5",
+                  "label": "2体のLOVOTのやりとり。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_6",
+                  "label": "朝",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_7",
+                  "label": "起きる時間を、暮らしに合わせる。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_8",
+                  "label": "LOVOTアプリでは、睡眠の時間帯を設定できます。起床の時間にな",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_9",
+                  "label": "昼",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_10",
+                  "label": "活動と充電を繰り返す。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_11",
+                  "label": "日中は部屋で活動し、充電が必要になるとネストに戻ります。ずっと動",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_12",
+                  "label": "夜",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_13",
+                  "label": "夜はネストで眠る。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_14",
+                  "label": "設定した睡眠の時間になると、LOVOTはネストへ戻ります。睡眠中",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_15",
+                  "label": "アプリの設定",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_16",
+                  "label": "休日や外出の予定に合わせて。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_17",
+                  "label": "睡眠の時間帯を設定する",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_18",
+                  "label": "仕事の日と休日など、自分が家で過ごす時間を考えると、起床・睡眠の",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_19",
+                  "label": "「起こすまで睡眠する」を確認する",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_20",
+                  "label": "手動で起こすまで睡眠を続ける設定として紹介されています。休日の朝",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_21",
+                  "label": "掲載情報について",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_22",
+                  "label": "2026年11月9日に提供いただいた参考資料をもとに構成していま",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_23",
+                  "label": "一緒に暮らす、その前に",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_24",
+                  "label": "自分の生活に合うか、 実際に確かめる。",
+                  "widget": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "visit",
+          "label": "体験・購入の前に",
+          "file": "content/visit.json",
+          "fields": [
+            {
+              "name": "texts",
+              "label": "文章",
+              "widget": "object",
+              "fields": [
+                {
+                  "name": "text_1",
+                  "label": "体験・購入の前に",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_2",
+                  "label": "まずは、 会ってみませんか。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_3",
+                  "label": "大きさ、動き、ふれた感じ。 画面だけではわからないことを、実際に",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_4",
+                  "label": "お迎え前の確認リスト",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_5",
+                  "label": "かわいい、の次に 確かめたいこと。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_6",
+                  "label": "自分の暮らしに合わせて、 ひとつずつ確認してみてください。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_7",
+                  "label": "費用とプラン",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_8",
+                  "label": "本体の価格だけでなく、継続してかかる費用、契約条件、サポート内容",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_9",
+                  "label": "家の環境",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_10",
+                  "label": "床の段差や敷物、移動するスペース、充電場所など。住環境の条件は公",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_11",
+                  "label": "お手入れとサポート",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_12",
+                  "label": "日々のお手入れや、困ったときの問い合わせ先。長く暮らすための情報",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_13",
+                  "label": "一緒に暮らす人との相談",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_14",
+                  "label": "家族や同居する人とも相談して、置き場所や接し方について共有してお",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_15",
+                  "label": "よくある確認事項",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_16",
+                  "label": "体験の前に。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_17",
+                  "label": "体験できる場所や開催情報は、LOVOT公式サイトで確認できます。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_18",
+                  "label": "最新の価格、プラン、契約条件は公式サイトをご確認ください。このサ",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_19",
+                  "label": "このサイトは非公式の紹介サイトです。購入や体験の予約、製品に関す",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_20",
+                  "label": "最新の情報はこちら",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_21",
+                  "label": "LOVOT公式サイトへ。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_22",
+                  "label": "体験場所、製品の仕様、価格・プランを確認できます。",
+                  "widget": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "videos",
+          "label": "LOVOT写真館",
+          "file": "content/videos.json",
+          "fields": [
+            {
+              "name": "texts",
+              "label": "文章",
+              "widget": "object",
+              "fields": [
+                {
+                  "name": "text_1",
+                  "label": "写真と動画で残す、LOVOTの姿。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_2",
+                  "label": "LOVOT写真館",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_3",
+                  "label": "写真を選ぶと、その場面の動画が開きます。",
+                  "widget": "text"
+                },
+                {
+                  "name": "text_4",
+                  "label": "動画を開く：1本目 / 2本目 / 3本目",
+                  "widget": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "media",
+          "label": "写真・動画・写真館",
+          "file": "content/media.json",
+          "fields": [
+            {
+              "name": "home_video",
+              "label": "トップの動画",
+              "widget": "file"
+            },
+            {
+              "name": "home_poster",
+              "label": "トップ動画の表紙写真",
+              "widget": "image"
+            },
+            {
+              "name": "second_video",
+              "label": "トップの2本目の動画",
+              "widget": "file"
+            },
+            {
+              "name": "second_poster",
+              "label": "2本目の表紙写真",
+              "widget": "image"
+            },
+            {
+              "name": "life_video",
+              "label": "暮らしページの動画",
+              "widget": "file"
+            },
+            {
+              "name": "life_poster",
+              "label": "暮らし動画の表紙写真",
+              "widget": "image"
+            },
+            {
+              "name": "about_photo",
+              "label": "紹介ページの写真",
+              "widget": "image"
+            },
+            {
+              "name": "life_photo",
+              "label": "暮らしページの写真",
+              "widget": "image"
+            },
+            {
+              "name": "photos",
+              "label": "写真館の展示（追加・並べ替えできます）",
+              "widget": "list",
+              "min": 1,
+              "max": 30,
+              "summary": "{{fields.title}}",
+              "fields": [
+                {
+                  "name": "title",
+                  "label": "写真のタイトル",
+                  "widget": "string"
+                },
+                {
+                  "name": "image",
+                  "label": "展示写真",
+                  "widget": "image"
+                },
+                {
+                  "name": "video",
+                  "label": "選ぶと再生する動画（任意）",
+                  "widget": "file",
+                  "required": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

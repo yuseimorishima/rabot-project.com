@@ -1,0 +1,18 @@
+import {readFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const {onRequest}=await import('data:text/javascript;base64,'+Buffer.from(readFileSync(new URL('../functions/api/[[route]].js',import.meta.url),'utf8')).toString('base64'));
+const origin='https://lovot.pages.dev',env={GITHUB_OAUTH_CLIENT_ID:'test-id',GITHUB_OAUTH_CLIENT_SECRET:'test-secret'};
+const call=(path,extra={},e=env)=>onRequest({request:new Request(origin+path,extra),env:e});
+assert.equal((await call('/api/editor-status',{},{})).status,200);
+assert.deepEqual(await (await call('/api/editor-status',{},{})).json(),{ready:false});
+assert.equal((await call('/api/auth',{},{})).status,503);
+assert.equal((await call('/api/callback?state=forged&code=fake')).status,403);
+const auth=await call('/api/auth');assert.equal(auth.status,302);
+const dest=new URL(auth.headers.get('Location'));assert.equal(dest.origin,'https://github.com');
+const state=dest.searchParams.get('state'),cookie=auth.headers.get('Set-Cookie').split(';')[0];
+assert.equal((await call('/api/callback?state='+state+'&code=fake')).status,403);
+let requests=0;globalThis.fetch=async()=>new Response(JSON.stringify(++requests===1?{access_token:'test-token'}:{permissions:{push:true}}),{headers:{'Content-Type':'application/json'}});
+const success=await call('/api/callback?state='+state+'&code=fake',{headers:{Cookie:cookie}});assert.equal(success.status,200);assert.match(await success.text(),/authorization:github:success/);
+requests=0;globalThis.fetch=async()=>new Response(JSON.stringify(++requests===1?{access_token:'test-token'}:{permissions:{push:false}}));
+assert.equal((await call('/api/callback?state='+state+'&code=fake',{headers:{Cookie:cookie}})).status,403);
+console.log('OAuth: missing config, state/cookie checks, permission check and success handshake passed (mock GitHub).');
