@@ -24,3 +24,31 @@ films.forEach(film => {
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) films.forEach(film => film.pause());
 });
+
+const cinema = document.querySelector('#cinema-player');
+if (cinema) {
+  const choices = [...document.querySelectorAll('.clip-choice')];
+  const titles = {1: '見上げるLOVOT', 2: '近くで撮ってみました。'};
+  const message = document.querySelector('#playback-message');
+  let selection = 0;
+  choices.forEach(choice => choice.addEventListener('click', async () => {
+    const clip = choice.dataset.clip;
+    const current = ++selection;
+    cinema.pause();
+    cinema.src = `assets/videos/lovot-${clip}.mp4`;
+    cinema.poster = `assets/videos/lovot-${clip}-poster.jpg`;
+    cinema.setAttribute('aria-label', titles[clip]);
+    document.querySelector('#clip-title').textContent = titles[clip];
+    document.querySelector('#clip-number').textContent = `0${clip} / 02`;
+    choices.forEach(item => item.setAttribute('aria-pressed', String(item === choice)));
+    message.textContent = '';
+    try { await cinema.play(); }
+    catch { if (current === selection) message.textContent = 'プレーヤーの再生ボタンを押してください。'; }
+  }));
+  document.querySelector('#repeat-film').addEventListener('change', event => {
+    cinema.loop = event.target.checked;
+  });
+  cinema.addEventListener('error', () => {
+    message.textContent = '動画を読み込めませんでした。ページを再読み込みしてお試しください。';
+  });
+}
