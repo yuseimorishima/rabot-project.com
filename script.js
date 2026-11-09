@@ -16,10 +16,12 @@ document.addEventListener('keydown', event => { if (event.key === 'Escape') clos
 document.addEventListener('click', event => { if (!nav.contains(event.target) && !menu.contains(event.target)) closeMenu(); });
 document.querySelector('#year').textContent = new Date().getFullYear();
 
-// Play only one clip at a time; video playback stays under the visitor's control.
+// Muted ambient clips may play together; interactive clips pause other players.
 const films = [...document.querySelectorAll('video')];
 films.forEach(film => {
-  film.addEventListener('play', () => films.forEach(other => { if (other !== film) other.pause(); }));
+  film.addEventListener('play', () => films.forEach(other => {
+    if (other !== film && !(film.autoplay && other.autoplay)) other.pause();
+  }));
 });
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) films.forEach(film => film.pause());
