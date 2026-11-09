@@ -1,4 +1,12 @@
 (async()=>{
+  // This only hides the entrance. GitHub OAuth still protects write access.
+  let entered = false;
+  try {
+    const time = Number(sessionStorage.getItem('lovot-editor-entry'));
+    entered = time > 0 && Date.now() >= time && Date.now() - time < 30 * 60 * 1000;
+  } catch {}
+  if (!entered) { location.replace('/videos.html'); return; }
+
   try {
     const res=await fetch('/api/editor-status',{cache:'no-store'});
     const data=res.ok?await res.json():{ready:false};

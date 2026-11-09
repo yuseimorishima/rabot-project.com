@@ -95,7 +95,11 @@ if (orbitRoom) {
     form.addEventListener('submit', event => {
       event.preventDefault();
       if (composing) return;
-      if (isAdmin(input.value)) { location.assign('https://lovot.pages.dev/admin/'); return; }
+      if (isAdmin(input.value)) {
+        try { sessionStorage.setItem('lovot-editor-entry', String(Date.now())); }
+        catch { status.textContent = 'ブラウザのストレージを有効にしてから、もう一度お試しください。'; return; }
+        location.assign('/admin/'); return;
+      }
       showResults();
     });
   }
