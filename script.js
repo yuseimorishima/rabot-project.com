@@ -60,6 +60,45 @@ if (cinema) {
 const orbitRoom = document.querySelector('.orbit-room');
 if (orbitRoom) {
   const photos = [...document.querySelectorAll('.orbit-photo')];
+  const form = document.querySelector('#photo-search-form');
+  const input = document.querySelector('#photo-search');
+  const results = document.querySelector('#photo-search-results');
+  const status = document.querySelector('#photo-search-status');
+  const normalize = value => value.normalize('NFKC').trim().toLocaleLowerCase('ja');
+  const isAdmin = value => ['admin', '管理者'].includes(normalize(value));
+  let composing = false;
+  function showResults() {
+    const query = normalize(input.value);
+    results.replaceChildren(); results.hidden = true; status.textContent = '';
+    if (!query || isAdmin(query)) return;
+    const terms = query.split(/\s+/);
+    const matches = photos.filter(photo => {
+      const text = normalize((photo.dataset.title || '') + ' ' + (photo.dataset.searchKeywords || ''));
+      return terms.every(term => text.includes(term));
+    });
+    status.textContent = matches.length ? matches.length + '件の写真が見つかりました。' : '写真が見つかりませんでした。別の言葉で探してみてください。';
+    results.hidden = !matches.length;
+    matches.forEach(photo => {
+      const item = document.createElement('li'), button = document.createElement('button');
+      button.type = 'button';
+      const image = document.createElement('img'); image.src = photo.querySelector('img').src; image.alt = '';
+      const title = document.createElement('span'); title.textContent = photo.dataset.title;
+      const arrow = document.createElement('span'); arrow.textContent = '↗'; arrow.setAttribute('aria-hidden', 'true');
+      button.append(image, title, arrow); button.addEventListener('click', () => photo.click());
+      item.append(button); results.append(item);
+    });
+  }
+  if (form) {
+    input.addEventListener('compositionstart', () => { composing = true; });
+    input.addEventListener('compositionend', () => { composing = false; showResults(); });
+    input.addEventListener('input', () => { if (!composing) showResults(); });
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (composing) return;
+      if (isAdmin(input.value)) { location.assign('https://lovot.pages.dev/admin/'); return; }
+      showResults();
+    });
+  }
   const dialog = document.querySelector('#gallery-dialog');
   const player = document.querySelector('#gallery-video');
   const pause = document.querySelector('#orbit-pause');

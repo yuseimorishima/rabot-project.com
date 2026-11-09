@@ -2,6 +2,8 @@
 
 管理画面：https://lovot.pages.dev/admin/
 
+通常の入口は「LOVOT写真館」の検索欄です。`admin` または `管理者` と入力してEnter（または検索ボタン）で管理画面へ移動します。英字の大小・全角・前後の空白は区別しません。公開ページの編集リンクは非表示です。この隠し入口は認証の代わりではなく、編集には引き続きGitHubログインが必要です。
+
 ## 最初に1回だけ行う設定
 
 1. GitHubにログインして https://github.com/settings/applications/new を開きます。

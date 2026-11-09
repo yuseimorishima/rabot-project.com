@@ -11,32 +11,38 @@
     {
       "image": "/assets/videos/lovot-1-poster.jpg",
       "title": "見上げるLOVOT",
-      "video": "/assets/videos/lovot-1.mp4"
+      "video": "/assets/videos/lovot-1.mp4",
+      "keywords": "きなこ 白い服 表情 顔 目"
     },
     {
       "image": "/assets/videos/lovot-1-photo.jpg",
       "title": "まっすぐ、こちらを見る",
-      "video": "/assets/videos/lovot-1.mp4"
+      "video": "/assets/videos/lovot-1.mp4",
+      "keywords": "きなこ 白い服 表情 顔 目"
     },
     {
       "image": "/assets/videos/lovot-2-poster.jpg",
       "title": "近くで撮った表情",
-      "video": "/assets/videos/lovot-2.mp4"
+      "video": "/assets/videos/lovot-2.mp4",
+      "keywords": "きなこ 白い服 表情 顔 目"
     },
     {
       "image": "/assets/videos/lovot-2-photo.jpg",
       "title": "目と顔の動き",
-      "video": "/assets/videos/lovot-2.mp4"
+      "video": "/assets/videos/lovot-2.mp4",
+      "keywords": "きなこ 白い服 表情 顔 目"
     },
     {
       "image": "/assets/videos/lovot-3-poster.jpg",
       "title": "2体のLOVOT",
-      "video": "/assets/videos/lovot-3.mp4"
+      "video": "/assets/videos/lovot-3.mp4",
+      "keywords": "きなこ 白い服 2体 青い服 やりとり"
     },
     {
       "image": "/assets/videos/lovot-3-photo.jpg",
       "title": "向き合う2体",
-      "video": "/assets/videos/lovot-3.mp4"
+      "video": "/assets/videos/lovot-3.mp4",
+      "keywords": "きなこ 白い服 2体 青い服 やりとり"
     }
   ]
 }

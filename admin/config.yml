@@ -583,6 +583,12 @@
                   "label": "選ぶと再生する動画（任意）",
                   "widget": "file",
                   "required": false
+                },
+                {
+                  "name": "keywords",
+                  "label": "検索用キーワード（スペースで区切る）",
+                  "widget": "string",
+                  "required": false
                 }
               ]
             }
