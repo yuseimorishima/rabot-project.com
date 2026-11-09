@@ -1,5 +1,5 @@
 (async()=>{
-  // This only hides the entrance. GitHub OAuth still protects write access.
+  // This hides the entrance; the server password check protects editor access.
   let entered = false;
   try {
     const time = Number(sessionStorage.getItem('lovot-editor-entry'));
@@ -10,7 +10,13 @@
   try {
     const res=await fetch('/api/editor-status',{cache:'no-store'});
     const data=res.ok?await res.json():{ready:false};
-    if(!data.ready){document.querySelector('#status').textContent='GitHubログインの設定が必要です。';document.querySelector('#instructions').hidden=false;return;}
+    if(!data.ready){document.querySelector('#status').textContent='パスワード認証の設定が必要です。';document.querySelector('#instructions').hidden=false;return;}
+    const labels = new MutationObserver(() => {
+      document.querySelectorAll('button').forEach(button => {
+        if (/GitHub.*ログイン|Login with GitHub/i.test(button.textContent)) button.textContent = '管理者パスワードで入る';
+      });
+    });
+    labels.observe(document.body,{childList:true,subtree:true});
     const script=document.createElement('script');script.src='/admin/vendor/decap-cms.js';
     script.onerror=()=>{document.querySelector('#status').textContent='管理画面を読み込めませんでした。再読み込みしてください。';};
     script.onload=()=>{document.querySelector('#setup').hidden=true;};document.body.append(script);

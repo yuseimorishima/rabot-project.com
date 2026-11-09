@@ -1,54 +1,42 @@
-# サイト管理画面
+# サイト管理画面（パスワード方式）
 
-管理画面：https://lovot.pages.dev/admin/
+## 入り方
 
-通常の入口は「LOVOT写真館」の検索欄です。`admin` または `管理者` と入力してEnter（または検索ボタン）で管理画面へ移動します。英字の大小・全角・前後の空白は区別しません。公開ページの編集リンクは非表示です。この隠し入口は認証の代わりではなく、編集には引き続きGitHubログインが必要です。
+写真館の検索欄に `admin` または `管理者` と入力して検索します。管理画面の「管理者パスワードで入る」を押し、パスワードを入力します。GitHubのログイン操作は不要です。
+
+検索経由の入口状態は同じタブで30分間有効です。直接 /admin/ を開くと写真館へ戻ります。この入口制御は認証の代わりではなく、サーバーがパスワードを検証します。
 
 ## 最初に1回だけ行う設定
 
-1. GitHubにログインして https://github.com/settings/applications/new を開きます。
-2. Application nameを「LOVOTサイト編集」、Homepage URLを `https://lovot.pages.dev`、Authorization callback URLを `https://lovot.pages.dev/api/callback` にします。
-3. OAuth Appを作成し、Client IDを確認。Client Secretを生成します。
-4. Cloudflare → Workers & Pages → lovot → Settings → Variables and Secretsで、本番環境に次を追加します。
-   - `GITHUB_OAUTH_CLIENT_ID`：Client ID（テキスト）
-   - `GITHUB_OAUTH_CLIENT_SECRET`：Client Secret（Secretとして暗号化）
-5. Cloudflare Pagesの最新デプロイを再実行し、管理画面を再読み込みします。
+Cloudflare Pages → lovot → Settings → Variables and Secrets → 本番環境で、以下の2項目を **Secret** として設定してください。
 
-Client SecretをGitHub・チャットへ貼らないでください。設定はCloudflareの管理画面で行います。
+- `ADMIN_PASSWORD`：管理者が決めたパスワード。値を公開ファイルに書かないでください。
+- `GITHUB_CMS_TOKEN`：GitHubの保存用接続キー。
 
-この構成はCloudflare Pages Functionsを使用します。追加のWorker作成やサーバー契約は不要です。Functionsを含む最新デプロイが成功している必要があります。独自ドメインがあっても、管理画面は上記のpages.dev URLから開いてください。
+保存用接続キーはGitHubのFine-grained personal access tokenを作成し、Repository accessで `yuseimorishima/rabot-project.com` のみを選択。Repository permissions → Contents を Read and writeにします。Metadataの読み取りはGitHubが自動付与します。期限切れ時はCloudflareの値を更新します。
+
+このキーは管理者が最初に用意するもので、日々の編集者はGitHubログイン不要です。秘密の値はCloudflareの設定欄に直接入力し、チャットやGitHubへ貼らないでください。
+
+値を保存したら、Cloudflare Pagesの最新デプロイを再実行します。以前のOAuth App、`GITHUB_OAUTH_CLIENT_ID`、`GITHUB_OAUTH_CLIENT_SECRET` は使用しません。
+
+公開サイトの保存にはGitHubへ書き込む権限が必要なため、この接続キーの設定は省略できません。現時点で、CloudflareへのSecret設定・実パスワード認証・実保存の検証は未完了です。
 
 ## 日々の編集
 
-1. 管理画面でGitHubログイン。`yuseimorishima/rabot-project.com` に書き込みできるアカウントが必要です。
-2. 「サイトを編集」でページを選択し、文章を変更します。
-3. 「写真・動画・写真館」で動画・写真を差し替え。写真館の展示は追加・並べ替え・削除ができます。動画欄を空にした写真は、クリックすると写真を拡大します。
-4. 保存・公開するとGitHubのmainへコミットされ、Cloudflareの自動デプロイが動きます。実サイトを再読み込みして確認します。
+1. 写真館の検索から管理画面へ入り、管理者パスワードを入力。
+2. 「サイトを編集」でページを選んで文章を変更。
+3. 「写真・動画・写真館」で素材を差し替え。写真館の展示を追加・並べ替え・削除できます。検索用キーワードも設定できます。
+4. 保存・公開するとGitHubのmainへコミットされ、Cloudflareの自動デプロイが動きます。
+5. 使用後は管理画面からログアウト。パスワード認証後はDecap CMSが保存用接続キーをブラウザの認証状態として利用します。共有端末ではログアウトしてください。
 
-本文はプレーンテキストです。HTMLを入力しても実行されません。改行を利用できます。レイアウトそのものの変更はコード側で行います。
+動画はH.264/AACのMP4、画像はJPEG・PNG・WebPをおすすめします。Cloudflare Pagesの1ファイル25MiB上限に収まるよう、動画は余裕を持って24MB未満に圧縮してください。ぼかし等はアップロード前に処理してください。
 
-## 写真と動画
+文章はプレーンテキスト。レイアウトやリンク先そのものの変更はコード側で行います。
 
-- 写真はJPEG・PNG・WebPがおすすめです。
-- 動画はブラウザ互換性のあるH.264/AACのMP4を使ってください。MOVのままでは端末によって再生できません。
-- Cloudflare Pagesの静的ファイル上限は1ファイル25MiBです。余裕を持って24MB未満に圧縮してアップロードしてください。
-- アップロード先は `assets/uploads/` です。公開してよい素材だけアップロードしてください。
-- ぼかしなどの編集処理は管理画面では行いません。必要な処理を済ませたファイルを選んでください。
-- 本文のリンクやナビゲーションの行き先は管理画面の対象外です。
+## 実装
 
-## 認証と権限
-
-GitHub OAuthのrepoスコープを利用します。認可画面のアクセス範囲を確認してください。認証用FunctionsはGitHub上の対象リポジトリへの書き込み権限を検査します。秘密のClient Secretはサーバーのみで使用します。認証後のユーザートークンはDecap CMSに渡るため、共有端末では使用後に管理画面からログアウトしてください。
-
-## 保存の仕組み
-
-- ページごとの文章：`content/index.json` など
-- 写真・動画の指定、写真館の展示：`content/media.json`
-- 編集画面の設定：`admin/config.yml`
-- 認証：`functions/api/[[route]].js`
-- Decap CMS 3.17.3の公式npm配布物を同梱。配布物の整合性ハッシュを照合済み。ライセンスは `admin/vendor/decap-cms.js.LICENSE.txt` にあります。
-
-設定前は、管理画面に設定案内が表示されます。現在のサイトの表示にはログインを必要としません。認証設定前でも、既存HTMLとJSONによって公開サイトは動作します。
-
-
-検索経由の入口制御：写真館で管理キーワードを検索すると、同じタブのsessionStorageに30分間の入口状態を保存します。未経由で /admin/ を開くと写真館へ戻ります。これは画面の入口を隠す仕組みであり、認証ではありません。実際の書き込み権限は引き続きGitHub OAuthで検査します。初回のOAuth設定案内も、検索経由で開いて確認してください。
+- `content/*.json`：文章、写真・動画の参照、写真館の展示。
+- `admin/config.yml`：管理画面の編集項目。
+- `functions/api/[[route]].js`：サーバー側のパスワード認証。CSRF用Cookieと署名、送信元、保存用接続キーの書き込み権限を確認します。
+- `tests/editor-auth.test.mjs`：認証の正常系・異常系テスト（GitHubへの接続はモック）。
+- 管理画面はDecap CMS 3.17.3。GitHubバックエンドの認証受け渡しにパスワード画面を接続しています。
