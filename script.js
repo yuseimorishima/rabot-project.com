@@ -30,7 +30,7 @@ document.addEventListener('visibilitychange', () => {
 const cinema = document.querySelector('#cinema-player');
 if (cinema) {
   const choices = [...document.querySelectorAll('.clip-choice')];
-  const titles = {1: '見上げるLOVOT', 2: '近くで撮ってみました。', 3: '少し離れたところから。'};
+  const titles = {1: '見上げるLOVOT', 2: '近くで撮ってみました。', 3: '2体のLOVOTのやりとり。'};
   const message = document.querySelector('#playback-message');
   let selection = 0;
   choices.forEach(choice => choice.addEventListener('click', async () => {
