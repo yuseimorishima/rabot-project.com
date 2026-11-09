@@ -19,7 +19,7 @@ document.addEventListener('click', event => { if (!nav.contains(event.target) &&
 document.querySelector('#year').textContent = new Date().getFullYear();
 
 // Muted ambient clips may play together; interactive clips pause other players.
-const films = [...document.querySelectorAll('video')];
+const films = [...document.querySelectorAll('main video')];
 films.forEach(film => {
   film.addEventListener('play', () => films.forEach(other => {
     if (other !== film && !(film.autoplay && other.autoplay)) other.pause();
