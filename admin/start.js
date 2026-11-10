@@ -7,6 +7,12 @@
   } catch {}
   if (!entered) { location.replace('/videos.html'); return; }
 
+  // Safari may open the authorization window as a separate tab without an opener.
+  // Decap uses this same storage key for its authenticated user.
+  window.addEventListener('storage', event => {
+    if (event.key === 'decap-cms-user' && event.newValue) location.reload();
+  });
+
   try {
     const res=await fetch('/api/editor-status',{cache:'no-store'});
     const data=res.ok?await res.json():{ready:false};

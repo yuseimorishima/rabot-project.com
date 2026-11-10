@@ -1,5 +1,6 @@
 import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
+import vm from 'node:vm';
 const {onRequest}=await import('data:text/javascript;base64,'+Buffer.from(readFileSync(new URL('../functions/api/[[route]].js',import.meta.url),'utf8')).toString('base64'));
 const origin='https://lovot.pages.dev';
 const env={ADMIN_PASSWORD:'test-password',GITHUB_CMS_TOKEN:'test-repo-token'};
@@ -15,7 +16,14 @@ assert.equal((await submit(env.ADMIN_PASSWORD,{Origin:'https://attacker.example'
 assert.equal((await submit(env.ADMIN_PASSWORD,{Origin:origin})).status,403);
 assert.equal((await submit(env.ADMIN_PASSWORD,undefined,'forged')).status,403);
 let requests=0;globalThis.fetch=async()=>{requests++;return new Response(JSON.stringify({permissions:{push:true}}))};
-const success=await submit(env.ADMIN_PASSWORD);assert.equal(success.status,200);assert.match(await success.text(),/authorization:github:success/);assert.equal(requests,1);
+const success=await submit(env.ADMIN_PASSWORD);assert.equal(success.status,200);const successPage=await success.text();assert.match(successPage,/authorization:github:success/);assert.equal(requests,1);
+// When a browser separates the popup from its opener, the verified response
+// must populate Decap's existing user store and offer a way back to the editor.
+const elements={status:{},continue:{hidden:true}};const stored={};let fallback;
+const context={window:{opener:null,addEventListener(){}},localStorage:{setItem:(k,v)=>stored[k]=v},sessionStorage:{setItem:(k,v)=>stored[k]=v},document:{getElementById:id=>elements[id]},setTimeout:fn=>fallback=fn,Date,JSON,String};
+vm.runInNewContext(successPage.match(/<script>([\s\S]*?)<\/script>/)[1],context);fallback();
+assert.deepEqual(JSON.parse(stored['decap-cms-user']),{token:env.GITHUB_CMS_TOKEN,backendName:'github'});
+assert(Number(stored['lovot-editor-entry'])>0);assert.equal(elements.continue.hidden,false);
 assert.equal((await submit(env.ADMIN_PASSWORD,{Cookie:cookie})).status,200);
 assert.equal((await submit(env.ADMIN_PASSWORD,{Origin:'null',Cookie:cookie})).status,200);
 assert.equal((await submit(env.ADMIN_PASSWORD,{Origin:'null'})).status,403);
