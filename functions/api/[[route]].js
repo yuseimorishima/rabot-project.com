@@ -18,7 +18,10 @@ export async function onRequest({request,env}){
  if(!ready)return response('管理者パスワードと保存用接続キーの設定が必要です。',503);
  if(url.pathname==='/api/auth')return request.method==='GET'?loginForm(env):response('Method not allowed',405);
  if(request.method!=='POST')return response('Method not allowed',405);
- if(request.headers.get('Origin')!==SITE)return response('Invalid origin',403);
+ // Some browsers omit Origin when the login form uses a no-referrer policy.
+ // The signed state and matching SameSite cookie below still protect the form.
+ const origin=request.headers.get('Origin');
+ if(origin && origin!==SITE)return response('Invalid origin',403);
  if(Number(request.headers.get('Content-Length')||0)>4096)return response('Too large',413);
  try{
   const body=await request.text();if(body.length>4096)return response('Too large',413);

@@ -16,6 +16,8 @@ assert.equal((await submit(env.ADMIN_PASSWORD,{Origin:origin})).status,403);
 assert.equal((await submit(env.ADMIN_PASSWORD,undefined,'forged')).status,403);
 let requests=0;globalThis.fetch=async()=>{requests++;return new Response(JSON.stringify({permissions:{push:true}}))};
 const success=await submit(env.ADMIN_PASSWORD);assert.equal(success.status,200);assert.match(await success.text(),/authorization:github:success/);assert.equal(requests,1);
+assert.equal((await submit(env.ADMIN_PASSWORD,{Cookie:cookie})).status,200);
+assert.equal((await submit(env.ADMIN_PASSWORD,{})).status,403);
 globalThis.fetch=async()=>new Response(JSON.stringify({permissions:{push:false}}));
 assert.equal((await submit(env.ADMIN_PASSWORD)).status,503);
 console.log('Password auth: missing settings, form secrecy, wrong password, origin, CSRF, permission checks and successful CMS handshake passed (mock GitHub).');
