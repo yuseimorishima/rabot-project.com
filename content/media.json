@@ -1,22 +1,9 @@
 {
-  "home_video": "/assets/videos/lovot-1.mp4",
-  "home_poster": "/assets/videos/lovot-1-poster.jpg",
-  "second_video": "/assets/videos/lovot-2.mp4",
-  "second_poster": "/assets/videos/lovot-2-poster.jpg",
-  "life_video": "/assets/videos/lovot-3.mp4",
-  "life_poster": "/assets/videos/lovot-3-poster.jpg",
   "about_photo": "/assets/videos/lovot-1-poster.jpg",
-  "life_photo": "/assets/videos/lovot-2-poster.jpg",
   "photos": [
     {
       "image": "/assets/videos/lovot-1-poster.jpg",
       "title": "見上げるLOVOT",
-      "video": "/assets/videos/lovot-1.mp4",
-      "keywords": "きなこ 白い服 表情 顔 目"
-    },
-    {
-      "image": "/assets/videos/lovot-1-photo.jpg",
-      "title": "まっすぐ、こちらを見る",
       "video": "/assets/videos/lovot-1.mp4",
       "keywords": "きなこ 白い服 表情 顔 目"
     },
@@ -44,5 +31,12 @@
       "video": "/assets/videos/lovot-3.mp4",
       "keywords": "きなこ 白い服 2体 青い服 やりとり"
     }
-  ]
+  ],
+  "home_poster": "/assets/videos/lovot-1-poster.jpg",
+  "life_photo": "/assets/videos/lovot-2-poster.jpg",
+  "second_video": "/assets/videos/lovot-2.mp4",
+  "life_poster": "/assets/videos/lovot-3-poster.jpg",
+  "life_video": "/assets/videos/lovot-3.mp4",
+  "second_poster": "/assets/videos/lovot-2-poster.jpg",
+  "home_video": "/assets/videos/lovot-1.mp4"
 }
