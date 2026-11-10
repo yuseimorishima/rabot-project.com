@@ -1,6 +1,6 @@
 const SITE = 'https://lovot.pages.dev';
 const REPO = 'yuseimorishima/rabot-project.com';
-const headers = {'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'};
+const headers = {'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin'};
 const response=(text,status=200,extra={})=>new Response(text,{status,headers:{...headers,...extra}});
 const htmlHeaders={'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"};
 async function sign(value,secret){const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(secret),{name:'HMAC',hash:'SHA-256'},false,['sign']);return Array.from(new Uint8Array(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(value)))).map(n=>n.toString(16).padStart(2,'0')).join('');}
@@ -18,10 +18,10 @@ export async function onRequest({request,env}){
  if(!ready)return response('管理者パスワードと保存用接続キーの設定が必要です。',503);
  if(url.pathname==='/api/auth')return request.method==='GET'?loginForm(env):response('Method not allowed',405);
  if(request.method!=='POST')return response('Method not allowed',405);
- // Some browsers omit Origin when the login form uses a no-referrer policy.
- // The signed state and matching SameSite cookie below still protect the form.
+ // Browsers may omit Origin or send "null" on a no-referrer login form.
+ // Every submission must still pass the signed state and SameSite cookie checks.
  const origin=request.headers.get('Origin');
- if(origin && origin!==SITE)return response('Invalid origin',403);
+ if(origin && origin!=='null' && origin!==SITE)return response('Invalid origin',403);
  if(Number(request.headers.get('Content-Length')||0)>4096)return response('Too large',413);
  try{
   const body=await request.text();if(body.length>4096)return response('Too large',413);
