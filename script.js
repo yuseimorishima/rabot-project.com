@@ -27,7 +27,9 @@ films.forEach(film => {
 });
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) films.forEach(film => film.pause());
+  else films.filter(film => film.autoplay && film.muted).forEach(film => film.play().catch(() => {}));
 });
+films.filter(film => film.autoplay && film.muted).forEach(film => film.play().catch(() => {}));
 
 const cinema = document.querySelector('#cinema-player');
 if (cinema) {

@@ -1,8 +1,6 @@
 (() => {
-  const key = 'kinako-welcome-seen';
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let seen = false, closeActive = null;
-  try { seen = sessionStorage.getItem(key) === '1'; } catch {}
+  let closeActive = null;
   function openWelcome() {
     if (closeActive || reduced.matches) return;
     const previousFocus = document.activeElement;
@@ -11,7 +9,7 @@
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
     overlay.setAttribute('aria-label', 'きなこがお出迎え');
-    overlay.innerHTML = '<div class="kinako-intro-label">LOVOTと暮らす。</div><div class="kinako-intro-frame"><video muted playsinline preload="auto" poster="assets/videos/kinako-welcome-poster.jpg" aria-label="きなこが2回瞬きをして、両手を上げる映像"><source src="assets/videos/kinako-welcome.mp4" type="video/mp4"></video></div><p class="kinako-intro-name">きなこ</p><p class="kinako-intro-status" role="status">きなこがお出迎え。</p><button class="kinako-start" hidden>再生して入る</button><button class="kinako-skip">スキップして入る ↗</button>';
+    overlay.innerHTML = '<div class="kinako-intro-label">LOVOTと暮らす。</div><div class="kinako-intro-frame"><video autoplay muted playsinline preload="auto" poster="assets/videos/kinako-welcome-poster.jpg" aria-label="きなこが2回瞬きをして、両手を上げる映像"><source src="assets/videos/kinako-welcome.mp4" type="video/mp4"></video></div><p class="kinako-intro-name">きなこ</p><p class="kinako-intro-status" role="status">きなこがお出迎え。</p><button class="kinako-start" hidden>再生して入る</button><button class="kinako-skip">スキップして入る ↗</button>';
     const protectedNodes = [...document.body.children].filter(el => !['SCRIPT','STYLE','LINK'].includes(el.tagName));
     const inertState = protectedNodes.map(el=>el.inert);
     protectedNodes.forEach(el=>{el.inert=true;});
@@ -23,7 +21,6 @@
     function close() {
       if(leaving)return; leaving=true;
       clearTimeout(timer); clearTimeout(fallback); video.pause();
-      try { sessionStorage.setItem(key,'1'); } catch {}
       overlay.classList.add('is-leaving');
       document.removeEventListener('keydown', onKey);
       reduced.removeEventListener('change', onPreference);
@@ -60,5 +57,5 @@
     play();
   }
   document.querySelectorAll('[data-replay-welcome]').forEach(button=>button.addEventListener('click',openWelcome));
-  if(!seen || new URLSearchParams(location.search).get('intro')==='1')openWelcome();
+  openWelcome();
 })();
