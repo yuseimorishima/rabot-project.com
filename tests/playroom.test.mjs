@@ -35,14 +35,15 @@ test('gacha deducts coins, gives outfits, and refunds duplicate draws', () => {
 
 test('published gacha weights cover every outcome and sum to 100', () => {
   assert.equal(OUTFITS.reduce((sum, item) => sum + item.weight, 0), 100);
-  for (const [roll, expected] of [[0, 'sakura'], [.19999, 'sakura'], [.2, 'mint'], [.4, 'sky'], [.6, 'lemon'], [.8, 'lavender'], [.88, 'peach'], [.96, 'night'], [.99999, 'night']]) {
+  for (const [roll, expected] of [[0, 'sakura'], [.15999, 'sakura'], [.16, 'mint'], [.32, 'sky'], [.48, 'lemon'], [.64, 'lavender'], [.72, 'peach'], [.8, 'night'], [.84, 'bunny'], [.90, 'cat'], [.96, 'bear'], [.99999, 'bear']]) {
     assert.equal(drawOutfit(createState(), () => roll).item.id, expected);
   }
 });
 
 test('clothes and coins survive reload, invalid wardrobe fields are repaired', () => {
   let state = drawOutfit(createState(1000), () => .99).state;
-  state = equipOutfit(state, 'night');
+  state = equipOutfit(state, 'bear');
+  assert.equal(state.outfit, 'bear');
   assert.deepEqual(readState(JSON.stringify(state), 1000), state);
   const repaired = readState(JSON.stringify({...state, coins: -5, owned: ['unknown'], outfit: 'night'}), 1000);
   assert.equal(repaired.coins, 0); assert.equal(repaired.outfit, 'milk'); assert.deepEqual(repaired.owned, ['milk']);

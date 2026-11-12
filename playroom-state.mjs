@@ -2,13 +2,16 @@ export const STORAGE_KEY = 'lovot-playroom-v1';
 const clamp = value => Math.max(0, Math.min(100, value));
 export const OUTFITS = [
   {id: 'milk', name: 'ミルク', color: '#f7f2e9', pattern: 'plain', rarity: 'はじめの服', weight: 0},
-  {id: 'sakura', name: 'さくらミルク', color: '#e8b9bc', pattern: 'plain', rarity: 'ノーマル', weight: 20},
-  {id: 'mint', name: 'ミント', color: '#b4cfbc', pattern: 'plain', rarity: 'ノーマル', weight: 20},
-  {id: 'sky', name: 'そらいろ', color: '#b1cadc', pattern: 'plain', rarity: 'ノーマル', weight: 20},
-  {id: 'lemon', name: 'レモンクリーム', color: '#e9d49d', pattern: 'plain', rarity: 'ノーマル', weight: 20},
+  {id: 'sakura', name: 'さくらミルク', color: '#e8b9bc', pattern: 'plain', rarity: 'ノーマル', weight: 16},
+  {id: 'mint', name: 'ミント', color: '#b4cfbc', pattern: 'plain', rarity: 'ノーマル', weight: 16},
+  {id: 'sky', name: 'そらいろ', color: '#b1cadc', pattern: 'plain', rarity: 'ノーマル', weight: 16},
+  {id: 'lemon', name: 'レモンクリーム', color: '#e9d49d', pattern: 'plain', rarity: 'ノーマル', weight: 16},
   {id: 'lavender', name: 'ラベンダードット', color: '#c7b6d7', pattern: 'dots', rarity: 'レア', weight: 8},
   {id: 'peach', name: 'もものしましま', color: '#deb29a', pattern: 'stripes', rarity: 'レア', weight: 8},
   {id: 'night', name: 'ほしぞら', color: '#71849e', pattern: 'stars', rarity: 'スペシャル', weight: 4},
+  {id: 'bunny', name: 'うさぎのしろ', color: '#f7eee9', pattern: 'plain', shape: 'bunny', rarity: 'スペシャル', weight: 6},
+  {id: 'cat', name: 'くろねこ', color: '#5a5b60', pattern: 'plain', shape: 'cat', rarity: 'スペシャル', weight: 6},
+  {id: 'bear', name: 'こぐまのはちみつ', color: '#c6a170', pattern: 'plain', shape: 'bear', rarity: 'スペシャル', weight: 4},
 ];
 export const DRAW_COST = 3;
 export function createState(now = Date.now()) {

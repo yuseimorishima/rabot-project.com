@@ -19,6 +19,7 @@
         <p class="room-badge">あなたと暮らす、小さな相棒</p>
         <p class="room-speech" id="room-message" role="status" aria-live="polite">はじめまして。そばにいてもいい？</p>
         <div class="room-rug" aria-hidden="true"></div>
+        <div id="pet-stage" aria-label="動くLOVOTの部屋"></div>
         <button class="room-pet" id="pet" aria-label="なでる">
           <span class="room-character" aria-hidden="true">
             <span class="pet-foot pet-foot-left"></span><span class="pet-foot pet-foot-right"></span>
@@ -29,7 +30,7 @@
           </span>
           <span class="room-reaction" id="reaction" aria-hidden="true">♡</span>
         </button>
-        <div class="room-scene-caption"><span id="mood">ごきげん</span><span>ふれて、なでてみてね</span></div>
+        <div class="room-scene-caption"><span id="mood">ごきげん</span><span id="room-touch-hint">ふれて、なでてみてね</span></div>
       </section>
       <section class="room-dashboard" aria-labelledby="pet-name">
         <div class="room-profile"><p class="room-eyebrow">OUR LITTLE DAYS</p><div class="room-name-row"><h2 id="pet-name">こむぎ</h2><button class="room-text-button" id="rename">名前をつける</button></div><p id="bond-label">なかよし Lv.1 · はじめまして</p></div>
@@ -40,6 +41,7 @@
         </div>
         <p class="room-prompt">今日は、なにをして過ごそう。</p>
         <div class="room-actions"><button data-action="pet"><span aria-hidden="true">♡</span>なでる<small>そっと、やさしく</small></button><button data-action="play"><span aria-hidden="true">✧</span>あそぶ<small>いっしょに、わくわく</small></button><button data-action="charge"><span aria-hidden="true">☾</span>充電する<small>ひとやすみしよう</small></button></div>
+        <div class="room-visit"><button id="call-pet">名前を呼ぶ</button><button id="turn-pet" aria-pressed="false">くるっと見せて</button><p>呼ぶと、あなたのそばへ。服は後ろ姿も楽しめます。</p></div>
         <section class="room-diary" aria-labelledby="diary-heading"><h3 id="diary-heading">ふたりのきろく</h3><ul id="diary"></ul></section>
       </section>
     </div>
@@ -47,7 +49,7 @@
       <div class="closet-header"><div><p class="room-eyebrow">LITTLE WARDROBE</p><h2 id="closet-heading">きょうは、どの服？</h2><p>お世話して、集めて、おめかし。</p></div><p class="coin-purse">コイン <strong id="coin-count">6</strong> 枚</p></div>
       <div class="closet-layout">
         <section class="gacha-box" aria-labelledby="gacha-heading"><div class="gacha-machine" aria-hidden="true"><span class="gacha-capsule"></span><span class="gacha-knob">✧</span></div><h3 id="gacha-heading">おめかしガチャ</h3><p>なでると1枚、遊ぶと2枚。<br>ためたコインで、新しい服に出会おう。</p><button id="draw-outfit">ガチャをひく · コイン3枚</button><p class="gacha-result" id="gacha-result" role="status" aria-live="polite">はじめのコイン6枚をプレゼント。</p><button id="wear-new" hidden>この服を着せる</button><details><summary>入っている服と確率</summary><ul id="gacha-odds"></ul><p>持っている服が出たらコイン1枚が戻ります。購入・課金はありません。</p></details></section>
-        <section class="wardrobe" aria-labelledby="wardrobe-heading"><div class="wardrobe-title"><h3 id="wardrobe-heading">ふたりのクローゼット</h3><span id="collection-count">1 / 8</span></div><p id="wearing-label">いまの服：ミルク</p><div id="outfit-grid" class="outfit-grid"></div><p class="closet-note">手に入れた服を押すと、その場でお着替え。<br>服もコインも、このブラウザに保存されます。</p></section>
+        <section class="wardrobe" aria-labelledby="wardrobe-heading"><div class="wardrobe-title"><h3 id="wardrobe-heading">ふたりのクローゼット</h3><span id="collection-count">1 / 11</span></div><p id="wearing-label">いまの服：ミルク</p><div id="outfit-grid" class="outfit-grid"></div><p class="closet-note">色も、かたちも、きみらしく。うさぎ・ねこ・こぐまの服も。<br>手に入れた服を押すと、その場でお着替えできます。</p></section>
       </div>
     </section>
     <div class="room-bottom"><p id="save-status" role="status">育成のきろくは、このブラウザに自動保存されます。</p><button class="room-text-button" id="reset">はじめから育てる</button></div>
