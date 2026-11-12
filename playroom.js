@@ -1,8 +1,9 @@
-import {STORAGE_KEY, createState, readState, advance, level, mood, interact} from './playroom-state.mjs';
+import {STORAGE_KEY, createState, readState, advance, level, mood, interact, OUTFITS, DRAW_COST, drawOutfit, equipOutfit} from './playroom-state.mjs';
 
 const $ = selector => document.querySelector(selector);
 const scene = $('.room-scene'), buttons = [...document.querySelectorAll('[data-action]'), $('#pet')];
 let state, busy = false, reactionTimer;
+let lastDrawn = null;
 try { state = readState(localStorage.getItem(STORAGE_KEY)); }
 catch { state = createState(); }
 function save() {
@@ -25,7 +26,46 @@ function render() {
   }
   $('#mood').textContent = mood(state);
   $('#diary').replaceChildren(...state.diary.map(line => { const li = document.createElement('li'); li.textContent = line; return li; }));
+  const outfit = OUTFITS.find(item => item.id === state.outfit);
+  $('.room-character').style.setProperty('--outfit', outfit.color);
+  $('.room-character').dataset.pattern = outfit.pattern;
+  $('#coin-count').textContent = state.coins;
+  $('#wearing-label').textContent = `いまの服：${outfit.name}`;
+  $('#collection-count').textContent = `${state.owned.length} / ${OUTFITS.length}`;
+  $('#draw-outfit').disabled = state.coins < DRAW_COST;
+  // Keep the same buttons so keyboard focus survives a wardrobe change.
+  document.querySelectorAll('[data-outfit]').forEach(button => {
+    const owned = state.owned.includes(button.dataset.outfit), active = state.outfit === button.dataset.outfit;
+    button.disabled = !owned; button.setAttribute('aria-pressed', String(active));
+    button.querySelector('.outfit-state').textContent = active ? '着用中' : owned ? '着せる' : 'まだ出会っていない';
+  });
 }
+for (const item of OUTFITS) {
+  const button = document.createElement('button'); button.type = 'button'; button.dataset.outfit = item.id;
+  const swatch = document.createElement('span'); swatch.className = 'outfit-swatch'; swatch.style.setProperty('--outfit', item.color); swatch.dataset.pattern = item.pattern; swatch.setAttribute('aria-hidden', 'true');
+  const name = document.createElement('span'); name.textContent = item.name;
+  const rarity = document.createElement('small'); rarity.textContent = item.rarity;
+  const status = document.createElement('small'); status.className = 'outfit-state';
+  button.append(swatch, name, rarity, status);
+  button.addEventListener('click', () => { state = equipOutfit(state, item.id); render(); save(); $('#room-message').textContent = `${item.name}、似合ってるかな？`; });
+  $('#outfit-grid').append(button);
+  if (item.weight) { const li = document.createElement('li'); li.textContent = `${item.name}（${item.rarity}） ${item.weight}%`; $('#gacha-odds').append(li); }
+}
+$('#draw-outfit').addEventListener('click', () => {
+  const result = drawOutfit(state); state = result.state; render(); save();
+  $('#gacha-result').textContent = result.message;
+  if (result.accepted) {
+    lastDrawn = result.item.id;
+    $('#wear-new').hidden = false;
+    $('#wear-new').textContent = `${result.item.name}を着せる`;
+    $('.gacha-box').dataset.rarity = result.item.rarity;
+  }
+});
+$('#wear-new').addEventListener('click', () => {
+  if (!lastDrawn || !state.owned.includes(lastDrawn)) return;
+  state = equipOutfit(state, lastDrawn); render(); save();
+  $('#room-message').textContent = 'お着替えしたよ。どうかな？';
+});
 function act(action) {
   if (busy) return;
   const result = interact(state, action); state = result.state;
@@ -54,6 +94,8 @@ $('#new-name').addEventListener('input', event => event.target.setCustomValidity
 $('#reset').addEventListener('click', () => $('#reset-dialog').showModal());
 $('#reset-form').addEventListener('submit', event => {
   event.preventDefault(); state = createState(); render(); save(); $('#reset-dialog').close();
+  lastDrawn = null; $('#wear-new').hidden = true;
+  $('#gacha-result').textContent = 'はじめのコイン6枚をプレゼント。';
   $('#room-message').textContent = 'はじめまして。そばにいてもいい？';
 });
 document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
