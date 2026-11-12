@@ -4,6 +4,7 @@ const $ = selector => document.querySelector(selector);
 const scene = $('.room-scene'), buttons = [...document.querySelectorAll('[data-action]'), $('#pet')];
 let state, busy = false, reactionTimer;
 let spritePainter = null;
+let petMotion = null;
 let lastDrawn = null;
 try { state = readState(localStorage.getItem(STORAGE_KEY)); }
 catch { state = createState(); }
@@ -32,6 +33,7 @@ function render() {
   $('.room-character').dataset.pattern = outfit.pattern;
   $('.room-character').dataset.shape = outfit.shape || 'plain';
   spritePainter?.setOutfit(outfit);
+  petMotion?.refresh();
   $('#coin-count').textContent = state.coins;
   $('#wearing-label').textContent = `いまの服：${outfit.name}`;
   $('#collection-count').textContent = `${state.owned.length} / ${OUTFITS.length}`;
@@ -76,6 +78,7 @@ function act(action) {
   $('#room-message').textContent = result.message;
   render(); save();
   if (!result.accepted) return;
+  petMotion?.react(action);
   busy = true; buttons.forEach(button => { button.disabled = true; });
   delete scene.dataset.reaction;
   void scene.offsetWidth;
@@ -87,8 +90,15 @@ function act(action) {
 document.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => act(button.dataset.action)));
 $('#pet').addEventListener('click', () => act('pet'));
 $('#call-pet').addEventListener('click', () => {
+  petMotion?.call();
   $('#room-message').textContent = `${state.name}、おいで。…きみのそばが、いちばん。`;
   scene.dataset.reaction = 'pet'; setTimeout(() => { if (!busy) delete scene.dataset.reaction; }, 800);
+});
+$('#home-pet').addEventListener('click', () => petMotion?.home());
+$('#pause-motion').addEventListener('click', event => {
+  const paused=event.currentTarget.getAttribute('aria-pressed')!=='true';
+  event.currentTarget.setAttribute('aria-pressed',String(paused));event.currentTarget.textContent=paused?'動きを再開する':'動きを止める';
+  petMotion?.pause(paused);
 });
 $('#rename').addEventListener('click', () => { $('#new-name').value = state.name; $('#name-dialog').showModal(); });
 $('#name-form').addEventListener('submit', event => {
@@ -105,6 +115,7 @@ $('#reset-form').addEventListener('submit', event => {
   lastDrawn = null; $('#wear-new').hidden = true;
   $('#gacha-result').textContent = 'はじめのコイン6枚をプレゼント。';
   $('#room-message').textContent = 'はじめまして。そばにいてもいい？';
+  petMotion?.home();
 });
 document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
 // Reconcile elapsed time on return, without timers punishing an inactive tab.
@@ -120,4 +131,14 @@ render(); save();
 import('./playroom-sprite.js').then(async ({createSpritePainter}) => {
   spritePainter = await createSpritePainter($('.room-character'));
   render();
+  // Motion is optional: a failed renderer must not disable care or recoloring.
+  import('./playroom-motion.js').then(({createPetMotion}) => {
+    petMotion=createPetMotion($('.room-character'),scene,()=>spritePainter.getTexture(),{onWalk:()=>{
+      $('#room-message').textContent='そっちに行ってみようかな。';
+    }});
+    $('#pause-motion').hidden=false;
+    $('#home-pet').hidden=false;
+    $('#motion-help').textContent='名前を呼ぶと、そばへ。床をタップすると移動します。';
+    $('#room-touch-hint').textContent='体をタップでなでる · 床をタップで移動';
+  }).catch(()=>{});
 }).catch(() => { $('#sprite-status').textContent = '服の色を表示できませんでした。ページを再読み込みしてください。'; });

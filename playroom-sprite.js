@@ -9,7 +9,7 @@ export async function createSpritePainter(container) {
   context.drawImage(image, 0, 0, width, height);
   const original = context.getImageData(0, 0, width, height);
   let current = '';
-  return {setOutfit(item) {
+  return {getTexture() { return canvas.hidden ? image : canvas; }, setOutfit(item) {
     if (current === item.id) return; current = item.id;
     if (item.id === 'milk' || item.id === 'bunny') {
       canvas.hidden = true; image.style.visibility = ''; container.dataset.spriteReady = 'true'; return;

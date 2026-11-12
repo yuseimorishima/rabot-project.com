@@ -20,7 +20,7 @@
         <p class="room-speech" id="room-message" role="status" aria-live="polite">はじめまして。そばにいてもいい？</p>
         <div class="room-rug" aria-hidden="true"></div>
         <button class="room-pet" id="pet" aria-label="なでる">
-          <span class="room-character" aria-hidden="true"><img src="assets/lovot-game-base.png" alt="" width="1086" height="1448"><canvas hidden></canvas></span>
+          <span class="room-character" aria-hidden="true"><img src="assets/lovot-game-base.png" alt="" width="1086" height="1448"><canvas class="room-color" hidden></canvas></span>
           <span class="room-reaction" id="reaction" aria-hidden="true">♡</span>
         </button>
         <div class="room-scene-caption"><span id="mood">ごきげん</span><span id="room-touch-hint">ふれて、なでてみてね</span></div>
@@ -34,7 +34,7 @@
         </div>
         <p class="room-prompt">今日は、なにをして過ごそう。</p>
         <div class="room-actions"><button data-action="pet"><span aria-hidden="true">♡</span>なでる<small>そっと、やさしく</small></button><button data-action="play"><span aria-hidden="true">✧</span>あそぶ<small>いっしょに、わくわく</small></button><button data-action="charge"><span aria-hidden="true">☾</span>充電する<small>ひとやすみしよう</small></button></div>
-        <div class="room-visit"><button id="call-pet">名前を呼ぶ</button><p>名前を呼んだり、そっとなでたり。あなたのペースで。</p></div>
+        <div class="room-visit"><button id="call-pet">名前を呼ぶ</button><button id="home-pet" hidden>いつもの場所へ</button><button id="pause-motion" aria-pressed="false" hidden>動きを止める</button><p id="motion-help">名前を呼んだり、そっとなでたり。あなたのペースで。</p></div>
         <section class="room-diary" aria-labelledby="diary-heading"><h3 id="diary-heading">ふたりのきろく</h3><ul id="diary"></ul></section>
       </section>
     </div>
