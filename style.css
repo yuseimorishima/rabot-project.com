@@ -105,3 +105,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{o
   .cta{padding-block:55px}.footer-nav{font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){.button,.hero-topics a,.hero-topics button{transition:none}}
+
+/* A quiet clue to the hidden playroom. */
+.room-hint{max-width:600px;margin:28px auto 0;color:#80654d;font-size:11px;text-align:center}.room-hint summary{cursor:pointer;list-style-position:inside;padding:10px}.room-hint p{padding:12px 20px;background:#fff9ef;border:1px solid #e1d3c1;border-radius:16px;line-height:2}.room-hint summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}

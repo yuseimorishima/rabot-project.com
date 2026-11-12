@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#f5efe5">
+  <title>ひみつのへや | LOVOTと暮らす。</title>
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="playroom.css">
+  <script type="module" src="playroom.js"></script>
+</head>
+<body class="playroom">
+  <a class="skip" href="#main">本文へ移動</a>
+  <header class="room-header"><a class="logo" href="index.html"><span class="brand-name">LOVOT</span><span class="brand-caption">と暮らす。</span></a><a class="room-back" href="videos.html">写真館へ戻る ↗</a></header>
+  <main id="main" class="room-main">
+    <div class="room-heading"><div><p class="room-eyebrow">小さな扉の、その先。</p><h1>ひみつのへや<span>。</span></h1></div><p>会いにきてくれて、ありがとう。<br>ここでは、あなたのペースで。</p></div>
+    <div class="room-layout">
+      <section class="room-scene" aria-label="小さなLOVOTのいる部屋">
+        <div class="room-window" aria-hidden="true"><span></span></div><div class="room-plant" aria-hidden="true">♧</div>
+        <p class="room-badge">あなたと暮らす、小さな相棒</p>
+        <p class="room-speech" id="room-message" role="status" aria-live="polite">はじめまして。そばにいてもいい？</p>
+        <div class="room-rug" aria-hidden="true"></div>
+        <button class="room-pet" id="pet" aria-label="なでる"><img src="assets/lovot.svg" alt="ふわふわの茶色いLOVOTのイラスト" width="700" height="800"><span class="room-reaction" id="reaction" aria-hidden="true">♡</span></button>
+        <div class="room-scene-caption"><span id="mood">ごきげん</span><span>ふれて、なでてみてね</span></div>
+      </section>
+      <section class="room-dashboard" aria-labelledby="pet-name">
+        <div class="room-profile"><p class="room-eyebrow">OUR LITTLE DAYS</p><div class="room-name-row"><h2 id="pet-name">こむぎ</h2><button class="room-text-button" id="rename">名前をつける</button></div><p id="bond-label">なかよし Lv.1 · はじめまして</p></div>
+        <div class="room-bond"><label for="bond">次のなかよしまで <span id="bond-value">0 / 40</span></label><progress id="bond" max="40" value="0"></progress></div>
+        <div class="room-stats">
+          <div><label for="energy">充電 <span id="energy-value"></span></label><meter id="energy" min="0" max="100" low="25" optimum="100" value="80"></meter></div>
+          <div><label for="happiness">ごきげん <span id="happiness-value"></span></label><meter id="happiness" min="0" max="100" low="25" optimum="100" value="65"></meter></div>
+        </div>
+        <p class="room-prompt">今日は、なにをして過ごそう。</p>
+        <div class="room-actions"><button data-action="pet"><span aria-hidden="true">♡</span>なでる<small>そっと、やさしく</small></button><button data-action="play"><span aria-hidden="true">✧</span>あそぶ<small>いっしょに、わくわく</small></button><button data-action="charge"><span aria-hidden="true">☾</span>充電する<small>ひとやすみしよう</small></button></div>
+        <section class="room-diary" aria-labelledby="diary-heading"><h3 id="diary-heading">ふたりのきろく</h3><ul id="diary"></ul></section>
+      </section>
+    </div>
+    <div class="room-bottom"><p id="save-status" role="status">育成のきろくは、このブラウザに自動保存されます。</p><button class="room-text-button" id="reset">はじめから育てる</button></div>
+    <p class="room-note">実際のLOVOTの機能・成長を再現するものではない、非公式のミニゲームです。<br>お休みしている間も大丈夫。いつでも、また会いにきてね。</p>
+    <noscript><p>遊ぶにはJavaScriptを有効にしてください。</p></noscript>
+  </main>
+  <dialog id="name-dialog" class="room-dialog"><form id="name-form"><h2>きみの名前は？</h2><p>好きな名前で呼んであげてね。</p><label for="new-name">名前（12文字まで）</label><input id="new-name" maxlength="12" required autocomplete="off"><div><button type="button" data-close>やめる</button><button type="submit">この名前にする</button></div></form></dialog>
+  <dialog id="reset-dialog" class="room-dialog"><form id="reset-form"><h2>新しい毎日をはじめる？</h2><p>名前となかよし度、きろくがリセットされます。元には戻せません。</p><div><button type="button" data-close>つづけて育てる</button><button type="submit">はじめから</button></div></form></dialog>
+</body>
+</html>

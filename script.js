@@ -68,11 +68,12 @@ if (orbitRoom) {
   const status = document.querySelector('#photo-search-status');
   const normalize = value => value.normalize('NFKC').trim().toLocaleLowerCase('ja');
   const isAdmin = value => ['admin', '管理者'].includes(normalize(value));
+  const isPlayroom = value => ['ひみつのへや', '秘密の部屋'].includes(normalize(value));
   let composing = false;
   function showResults() {
     const query = normalize(input.value);
     results.replaceChildren(); results.hidden = true; status.textContent = '';
-    if (!query || isAdmin(query)) return;
+    if (!query || isAdmin(query) || isPlayroom(query)) return;
     const terms = query.split(/\s+/);
     const matches = photos.filter(photo => {
       const text = normalize((photo.dataset.title || '') + ' ' + (photo.dataset.searchKeywords || ''));
@@ -97,6 +98,9 @@ if (orbitRoom) {
     form.addEventListener('submit', event => {
       event.preventDefault();
       if (composing) return;
+      if (isPlayroom(input.value)) {
+        location.assign('/playroom.html'); return;
+      }
       if (isAdmin(input.value)) {
         try { sessionStorage.setItem('lovot-editor-entry', String(Date.now())); }
         catch { status.textContent = 'ブラウザのストレージを有効にしてから、もう一度お試しください。'; return; }

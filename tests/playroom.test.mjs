@@ -1,0 +1,35 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createState, readState, advance, interact, level} from '../playroom-state.mjs';
+
+test('care changes needs and unlocks friendship levels', () => {
+  let state = createState(1000);
+  for (let i = 0; i < 10; i++) state = interact(state, 'pet', 1000).state;
+  assert.equal(state.happiness, 100); assert.equal(level(state), 2);
+  assert.equal(state.diary.length, 4);
+  const played = interact(state, 'play', 1000).state;
+  assert.equal(played.energy, 62); assert.equal(played.care, 48);
+  assert.equal(interact(played, 'charge', 1000).state.energy, 97);
+});
+test('low battery stops play and charging makes it possible again', () => {
+  const state = {...createState(1000), energy: 10};
+  const blocked = interact(state, 'play', 1000);
+  assert.equal(blocked.accepted, false); assert.equal(blocked.state.care, 0);
+  const charged = interact(state, 'charge', 1000).state;
+  assert.equal(interact(charged, 'play', 1000).accepted, true);
+});
+test('offline decay is capped, friendship persists, clocks cannot add energy', () => {
+  const original = {...createState(1000), care: 80};
+  const returned = advance(original, 1000 + 86400000);
+  assert.equal(returned.energy, 0); assert.equal(returned.happiness, 17); assert.equal(returned.care, 80);
+  assert.equal(advance(original, 0).energy, 80);
+});
+test('restore validates damaged saves, sanitizes ranges, and preserves progress', () => {
+  const state = {...createState(1000), name: 'もち', care: 100};
+  assert.deepEqual(readState(JSON.stringify(state), 1000), state);
+  for (const raw of ['broken', 'null', '{}', JSON.stringify({...state, energy: null}), JSON.stringify({...state, diary: [null]})]) {
+    assert.deepEqual(readState(raw, 1000), createState(1000));
+  }
+  const bounded = readState(JSON.stringify({...state, energy: 500, happiness: -5, care: 5000, updatedAt: 9999}), 1000);
+  assert.equal(bounded.energy, 100); assert.equal(bounded.happiness, 0); assert.equal(level(bounded), 6);
+});
