@@ -3,7 +3,7 @@ import {STORAGE_KEY, createState, readState, advance, level, mood, interact, OUT
 const $ = selector => document.querySelector(selector);
 const scene = $('.room-scene'), buttons = [...document.querySelectorAll('[data-action]'), $('#pet')];
 let state, busy = false, reactionTimer;
-let petStage = null;
+let spritePainter = null;
 let lastDrawn = null;
 try { state = readState(localStorage.getItem(STORAGE_KEY)); }
 catch { state = createState(); }
@@ -31,7 +31,7 @@ function render() {
   $('.room-character').style.setProperty('--outfit', outfit.color);
   $('.room-character').dataset.pattern = outfit.pattern;
   $('.room-character').dataset.shape = outfit.shape || 'plain';
-  petStage?.setOutfit(outfit); petStage?.setEnergy(state.energy);
+  spritePainter?.setOutfit(outfit);
   $('#coin-count').textContent = state.coins;
   $('#wearing-label').textContent = `いまの服：${outfit.name}`;
   $('#collection-count').textContent = `${state.owned.length} / ${OUTFITS.length}`;
@@ -76,8 +76,6 @@ function act(action) {
   $('#room-message').textContent = result.message;
   render(); save();
   if (!result.accepted) return;
-  petStage?.react(action);
-  $('#turn-pet').setAttribute('aria-pressed', 'false');
   busy = true; buttons.forEach(button => { button.disabled = true; });
   delete scene.dataset.reaction;
   void scene.offsetWidth;
@@ -89,14 +87,8 @@ function act(action) {
 document.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => act(button.dataset.action)));
 $('#pet').addEventListener('click', () => act('pet'));
 $('#call-pet').addEventListener('click', () => {
-  petStage?.call();
-  $('#turn-pet').setAttribute('aria-pressed', 'false');
   $('#room-message').textContent = `${state.name}、おいで。…きみのそばが、いちばん。`;
-  if (!petStage) { scene.dataset.reaction = 'play'; setTimeout(() => { delete scene.dataset.reaction; }, 800); }
-});
-$('#turn-pet').addEventListener('click', event => {
-  const turn = event.currentTarget.getAttribute('aria-pressed') !== 'true';
-  event.currentTarget.setAttribute('aria-pressed', String(turn)); petStage?.turn(turn);
+  scene.dataset.reaction = 'pet'; setTimeout(() => { if (!busy) delete scene.dataset.reaction; }, 800);
 });
 $('#rename').addEventListener('click', () => { $('#new-name').value = state.name; $('#name-dialog').showModal(); });
 $('#name-form').addEventListener('submit', event => {
@@ -124,18 +116,8 @@ window.addEventListener('storage', event => {
 });
 setInterval(() => { if (!document.hidden) { state = advance(state); render(); save(); } }, 60000);
 render(); save();
-function useSimpleView() {
-  petStage?.dispose(); petStage = null;
-  scene.classList.remove('has-pet-stage');
-  $('#turn-pet').disabled = true;
-  $('#room-touch-hint').textContent = 'ふれて、なでてみてね';
-}
-// Keep care and the CSS character usable if WebGL or the module is unavailable.
-import('./playroom-pet.js').then(({createPetStage}) => {
-  petStage = createPetStage($('#pet-stage'), {onPet: () => act('pet'), onWalk: () => {
-    $('#turn-pet').setAttribute('aria-pressed', 'false');
-    $('#room-message').textContent = 'そっちに、なにがあるの？';
-  }, onUnavailable: useSimpleView});
-  render(); scene.classList.add('has-pet-stage');
-  $('#room-touch-hint').textContent = '体をタップでなでる · 床をタップで移動';
-}).catch(useSimpleView);
+// The base image remains visible even if canvas recoloring is unavailable.
+import('./playroom-sprite.js').then(async ({createSpritePainter}) => {
+  spritePainter = await createSpritePainter($('.room-character'));
+  render();
+}).catch(() => { $('#sprite-status').textContent = '服の色を表示できませんでした。ページを再読み込みしてください。'; });
